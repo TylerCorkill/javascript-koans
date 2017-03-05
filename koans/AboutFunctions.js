@@ -107,9 +107,10 @@ describe("About Functions", function() {
       return a * b;
     };
 
-    var functionString = "function (a, b) {\r\n\
-      // An internal comment\r\n\
-      return a * b;\r\n\
+    // functionString: replace '\n\' with '\r\n\' for windows
+    var functionString = "function (a, b) {\n\
+      // An internal comment\n\
+      return a * b;\n\
     }";
     // console.log(JSON.stringify(multiply.toString()));
     expect(multiply.toString()).toBe(functionString); // cant make string that matches with comment
