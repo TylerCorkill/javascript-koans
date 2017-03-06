@@ -30,16 +30,22 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
       var productsICanEat = [];
 
       /* solve using filter() & all() / any() */
+      var filtered = products.filter(function (x) {
+        return !x.containsNuts && !_(x.ingredients).any(function (y) {
+          return y == 'mushrooms';
+        });
+      });
+      productsICanEat = filtered;
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
-  });
+      expect(productsICanEat.length).toBe(1);
+});
 
   /*********************************************************************************/
 
@@ -52,13 +58,18 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
     
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    var sum = _.range(1000).reduce(function (memo, x) {
+      if (x % 3 === 0 || x % 5 === 0) { return memo + x; }
+      return memo;
+    });    /* try chaining range() and reduce() */
 
-    expect(233168).toBe(FILL_ME_IN);
+
+
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -71,15 +82,35 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
+    _.chain(products)
+      .map(function (x) {
+        return x.ingredients;
+      })
+      .flatten()
+      .sort(function (a, b) {
+        if (a.length > b.length) return -1;
+        if (a.length < b.length) return 1;
+        return 0;
+      })
+      .reduce(function (previous, x) {
+        console.log(previous, x);
+        if (x == previous) {
+          ingredientCount[x]++;
+        } else {
+          ingredientCount[x] = 1;
+        }
+        return x;
+      });
+
     /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
